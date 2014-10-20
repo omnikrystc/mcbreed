@@ -1,0 +1,20 @@
+CACHE MANIFEST
+# version 1.1.11
+# Date: 2014/08/24
+
+CACHE:
+index.html
+scripts/libraries/jquery-2.1.1.js
+scripts/libraries/jquery.tmpl.js
+scripts/libraries/jquery.validate.js
+scripts/webdat-controller.js
+scripts/webdat-data.js
+scripts/webstorage.js
+scripts/utilities.js
+styles/default.css
+styles/reset.css
+
+FALLBACK:
+
+NETWORK:
+*

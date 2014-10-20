@@ -1,0 +1,202 @@
+@CHARSET "UTF-8";
+
+/*    *colors*
+ * 38686F   - dark
+ * 82B8BF   - mid
+ * E7F1F2   - light
+ * A0A0A0   - gray
+*/
+a {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+body {
+    background-color: #E7F1F2;
+}
+
+#node-app, html, body {
+    height: 100%;
+}
+
+#node-list {
+    background-color: #A0A0A0;
+    float: right;
+    width: 30%;
+    height: 100%;
+    overflow: scroll;
+}
+
+#node-data, #node-config {
+    float: left;
+    width: 70%;
+    height: 100%;
+    overflow: scroll;
+}
+
+#tgl-modes {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    right: 30%;
+}
+
+#tgl-modes a {
+    display: block;
+    height: 2em;
+    width: 2em;
+    border-radius: 1em;
+    border: #38686F solid 1px;
+    background-color: #82B8BF;
+    color: black;
+    font-weight: bold;
+    margin: 1px;
+    line-height: 2em;
+    font-size: 1.5em;
+}
+
+h1 {
+    background: #38686F;
+    color: #A0A0A0;
+    line-height: 1.8em;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    min-height: 1.8em;
+}
+
+h3 {
+    background-color: #38686F;
+    color: #A0A0A0;
+    line-height: 1.1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    min-height: 1.2em;
+}
+
+footer {
+    clear: both;
+    background: #82B8BF;
+    text-align: center;
+}
+
+.not {
+    display: none !important;
+}
+
+#node-list a, #geno-sidebar a {
+    line-height: 1.3em;    
+}
+
+#node-data h1 {
+    background-color: #82B8BF;
+    color: #38686F;
+}
+
+#chk-node-have {
+    float: left;
+    margin: 1em 1.5em;
+}
+
+#btn-node-delete {
+    float: right;
+    margin-right: 1.5em;
+}
+
+#parents-list, #children-list {
+    min-height: 100px;
+}
+
+.parent-column {
+    width: 45%;
+    display: inline-block;
+    margin: .2em 0 0 .4em;
+    line-height: 1.2em;
+}
+
+.parent-ddl {
+    margin-bottom: .75em;
+    margin-top: .5em;
+}
+
+.warning {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+
+.haveit {
+    text-decoration: line-through !important;    
+}
+
+#fld-add-node {
+    width: 80%;
+    margin-top: 5px;
+}
+
+#btn-node-delete-confirm {
+    background-color: red;
+    color: white;
+}
+
+#btn-add-parents, .btn-del-parents {
+    margin-left: .8em;
+}
+
+#ddl-import {
+    width: 80%;
+}
+
+.input-block {
+    width: 90%;
+    margin: 1em auto;
+    padding: .4em;
+    border:#38686F 1px dashed;
+}
+
+#input-json-data {
+    width: 100%;
+    height: 10em;
+}
+
+#btn-node-delete-confirm {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: .25em;
+}
+
+.data-point-name, .data-point-value {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: right;
+    width: 40%;
+    margin: .1em;
+}
+
+.data-point-value {
+    text-align: left;
+}
+
+.informational {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: .2em 0;
+}
+
+.input-button {
+    display: inline-block;
+    height: 1.2em;
+    border-radius: .2em;
+    padding: .2em;
+    border: #38686F solid 1px;
+    background-color: #82B8BF;
+    color: black;
+    font-weight: bold;
+    margin: .1em .4em;
+    line-height: 1.2em;
+    font-size: 1em;
+}

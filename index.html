@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- manifest="webdat.appcache"-->
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Web Dat - Trees, Bees and Whatnot</title>
+        <link rel="stylesheet" type="text/css" href="styles/reset.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="styles/default.css" media="screen">
+        <!-- libraries -->
+        <script src="scripts/libraries/jquery-2.1.1.js"></script>
+        <script src="scripts/libraries/jquery.tmpl.js"></script>
+        <script src="scripts/libraries/jquery.validate.js"></script>
+        <!-- project scripts -->
+        <script src="scripts/webdat-controller.js"></script>
+        <script src="scripts/webdat-data.js"></script>
+        <script src="scripts/webstorage.js"></script>
+        <script src="scripts/utilities.js"></script>
+    </head>
+    <body>
+        <main id="node-app">
+            <nav id="tgl-modes">
+                <a href="#" id="tgl-edit"> </a><a href="#" id="tgl-config"> </a>
+            </nav>
+            <section id="node-config">
+                <form id="input-imports" class="input-block">
+                    <p class="informational">
+                        Select a default dataset to retrieve from the server and load 
+                        for use. It will replace your existing dataset.
+                    </p>
+                    <select required="required" id="ddl-import">
+                        <option value="ajax/trees.json">Trees (Monster v1.1.0)</option>
+                    </select>
+                    <a href="#" class="input-button" id="btn-import">Load Data</a><br>
+                </form>
+                <form id="input-json" class="input-block">
+                    <p class="informational">
+                        The below text box contains the current contents of your dataset. 
+                        Copy it to a text file to save it or paste in a new set of data 
+                        and click Import to load it. It reloads when the page changes so
+                        if you cleared it click on an entry to the right (if there is one)
+                        to get it back.
+                    </p>
+                    <textarea required="required" id="input-json-data" name="input-json-data"> </textarea><br>
+                    <a href="#" class="input-button" id="btn-clear-json">Clear All</a>
+                    <a href="#" class="input-button" id="btn-select-json">Select All</a>
+                    <a href="#" class="input-button" id="btn-import-json">Import Data</a>
+                    <a href="#" class="input-button" id="btn-output-json">Output to Screen</a>
+                </form>
+                <form id="input-purge" class="input-block">
+                    <p class="informational">
+                        The below button will purge all data from your local dataset. The data
+                        will be lost so it might be a good idea to save it first (see above).
+                    </p>
+                    <a href="#" class="input-button" id="btn-purge-nodes">Purge Data</a>
+                </form>
+                <div class="input-block">
+                    <p class="informational">
+                        This information is only (re)calculated when a node is displayed. It won't be present
+                        when the app is first loaded until a node is selected.
+                    </p>
+                    <div class="data-point"><label class="data-point-name">Nodes: </label><span id="node-count" class="data-point-value"> </span></div>
+                    <div class="data-point"><label class="data-point-name">Parents: </label><span id="parent-count" class="data-point-value"> </span></div>
+                </div>
+            </section>
+            <nav id="node-list">
+            </nav>
+            <section id="node-data">
+                <form id="input-add-node">
+                    New: <input type="text" required="required" maxlength="100" id="fld-add-node" name="fld-add-node" class="large" placeholder="New Node">
+                </form>
+                <header>
+                    <input type="checkbox" id="chk-node-have" class="node-have">
+                    <a href="#" id="btn-node-delete"><h1>x</h1></a>
+                    <h1><a href="#" id="node-name"> </a></h1>
+                    <form id="input-rename-node">
+                        Attempt rename: <input type="text" required="required" maxlength="100" id="fld-rename-node" name="fld-rename-node" class="large" placeholder="New Name">
+                    </form>
+                </header>
+                <div id="node-warnings" class="input-warning"><a href="#" id="btn-node-delete-confirm">Click to confirm (child relationships will be deleted).</a></div>
+                <nav id="geno-sidebar">
+                    <section id="node-parents">
+                        <header><h3>Parents</h3></header>
+                        <form id="input-add-parents">
+                            <select required="required" class="parent-ddl parent-column" id="ddl-parent1">
+                            </select>
+                            <select required="required" class="parent-ddl parent-column" id="ddl-parent2">
+                            </select>
+                            <a href="#" id="btn-add-parents"> +</a><br>
+                        </form>
+                        <div id="parents-list">
+                        </div>
+                    </section>
+                    <section id="node-children">
+                        <header><h3>Children</h3></header>
+                        <div id="children-list">
+                        </div>
+                    </section>
+                </nav>
+            </section>
+        </main>
+    </body>
+    <script>
+        $(document).ready(function() {
+            webdatController.init("#node-app", function() {
+                console.log("Initialized!");
+            });            
+        });
+        
+        window.onerror = function(message, url, lineNumber) {
+            console.log("Message: "+message);
+            console.log("URL: "+url);
+            console.log("Line: "+lineNumber);
+        };
+        
+    </script>
+    
+    <!-- templates -->
+    <script id="tmpl-nodes" type="text/x-jQuery-tmpl">
+        <div><input type="checkbox" class="node-have" data-node-id="${id}" {{if (have) }}checked{{/if}}><a href="#" class="node-link {{if webdatData.haveIt(id)}}haveit{{/if}}" data-node-id="${id}">${id}</a></div>
+      
+    </script>
+    <script id="tmpl-parents" type="text/x-jQuery-tmpl">
+        {{each(key, value) parents}}
+            <div>
+                <span class="parent-column"><a href="#" class="node-link {{if webdatData.haveIt(value[0])}}haveit{{/if}}" data-node-id="${value[0]}">${value[0]}</a></span> 
+                <span class="parent-column"><a href="#" class="node-link {{if webdatData.haveIt(value[1])}}haveit{{/if}}" data-node-id="${value[1]}">${value[1]}</a></span>
+                <a href="#" class="btn-del-parents" data-node-id="${id}" data-parents='["${value[0]}", "${value[1]}"]'>x</a>
+            </div>
+        {{/each}}
+    </script>
+    <script id="tmpl-children" type="text/x-jQuery-tmpl">
+        {{each(key, value) parents}}
+            
+            {{if (value[0] === $item.id) }}
+            <div>
+                <span class="parent-column"><a href="#" class="node-link {{if webdatData.haveIt(id)}}haveit{{/if}}" data-node-id="${id}">${id}</a></span> 
+                <span class="parent-column">+ <a href="#" class="node-link {{if webdatData.haveIt(value[1])}}haveit{{/if}}" data-node-id="${value[1]}">${value[1]}</a></span>
+            </div>
+            {{else (value[1] === $item.id)}}
+            <div>
+                <span class="parent-column"><a href="#" class="node-link {{if webdatData.haveIt(id)}}haveit{{/if}}" data-node-id="${id}">${id}</a></span> 
+                <span class="parent-column">+ <a href="#" class="node-link {{if webdatData.haveIt(value[0])}}haveit{{/if}}" data-node-id="${value[0]}">${value[0]}</a></span>
+            </div>
+            {{/if}}
+        {{/each}}
+        
+    </script>
+</html>
