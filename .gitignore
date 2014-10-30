@@ -17,3 +17,6 @@
 
 # the js libraries
 scripts/libraries/*.js
+
+# this is the analytics for this site
+scripts/analytics.js
